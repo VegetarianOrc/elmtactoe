@@ -158,6 +158,9 @@ update msg model =
 
                 Nothing ->
                     let
+                        p =
+                            Debug.log "point: " point
+
                         updated =
                             updateBoard point model
 

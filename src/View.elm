@@ -7,6 +7,10 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Svg.Events exposing (..)
 import Json.Decode as Decode
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Row as Row
+import Bootstrap.Grid.Col as Col
 
 
 decodeClickLocation : Decode.Decoder Msg
@@ -137,11 +141,53 @@ renderWinner maybeWinner =
             div [] []
 
 
+renderHeadsUp : String -> PlayerMove -> Html msg
+renderHeadsUp header move =
+    let
+        svgInner point width =
+            case move of
+                Cross ->
+                    renderCross point width
+
+                _ ->
+                    --should never be empty, but handle it here
+                    renderCircle point width
+    in
+        Grid.row [ Row.centerXs ]
+            [ Grid.col []
+                [ Grid.row []
+                    [ Grid.col []
+                        [ h4 [] [ Html.text header ]
+                        ]
+                    ]
+                , Grid.row []
+                    [ Grid.col []
+                        [ svg [ viewBox "0 0 75 75", width "75px" ] (svgInner ( 0, 0 ) 75)
+                        ]
+                    ]
+                ]
+            ]
+
+
 view : Model -> Html Msg
 view model =
-    div [ HtmlAttr.style [ ( "margin-left", "300px" ) ] ]
-        [ svg
-            [ viewBox "0 0 306 306", width "306px", on "click" decodeClickLocation ]
-            (renderBoard model.board 306)
-        , renderWinner model.winner
-        ]
+    let
+        headUp =
+            case model.winner of
+                Just winner ->
+                    renderHeadsUp "Winner!" winner
+
+                Nothing ->
+                    renderHeadsUp "Up Next:" model.nextMove
+    in
+        Grid.container []
+            [ CDN.stylesheet
+            , Grid.row [ Row.centerXs ]
+                [ Grid.col []
+                    [ svg [ viewBox "0 0 500 500", width "500px", on "click" decodeClickLocation ] (renderBoard model.board 500)
+                    ]
+                , Grid.col [ Col.sm4 ]
+                    [ headUp
+                    ]
+                ]
+            ]
