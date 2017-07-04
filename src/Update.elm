@@ -1,11 +1,11 @@
-module Update exposing (..)
+port module Update exposing (..)
 
 import Models exposing (..)
 import Debug
 import Maybe.Extra
 
 
-updateRow : ( Int, Int ) -> PlayerMove -> List BoardSpace -> ( Bool, List BoardSpace )
+updateRow : ( Float, Float ) -> PlayerMove -> List BoardSpace -> ( Bool, List BoardSpace )
 updateRow point nextContent row =
     let
         updateSpaceIfNeeded space =
@@ -30,7 +30,7 @@ updateRow point nextContent row =
         ( didUpdate, spaces )
 
 
-updateBoard : ( Int, Int ) -> Model -> Model
+updateBoard : ( Float, Float ) -> Model -> Model
 updateBoard point model =
     let
         ( updateStatuses, newBoard ) =
@@ -148,10 +148,16 @@ detectWinner model =
         winningSymbol
 
 
+port toSvgCoords : ( Int, Int ) -> Cmd msg
+
+
+port receiveSvgCoords : (( Float, Float ) -> msg) -> Sub msg
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        OnTouch point ->
+        ReceiveSVGCoords point ->
             case model.winner of
                 Just winner ->
                     ( model, Cmd.none )
@@ -168,3 +174,6 @@ update msg model =
                             detectWinner updated
                     in
                         ( { updated | winner = newWinner }, Cmd.none )
+
+        OnTouch point ->
+            ( model, toSvgCoords point )

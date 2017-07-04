@@ -8,7 +8,7 @@ import View exposing (..)
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    receiveSvgCoords ReceiveSVGCoords
 
 
 main : Program Never Model Msg

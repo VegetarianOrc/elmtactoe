@@ -32,7 +32,7 @@ init : ( Model, Cmd Msg )
 init =
     let
         width =
-            500
+            100
 
         cellWidth =
             width // 3
@@ -52,7 +52,7 @@ init =
         ( initialModel, Cmd.none )
 
 
-spaceContains : BoardSpace -> ( Int, Int ) -> Bool
+spaceContains : BoardSpace -> ( Float, Float ) -> Bool
 spaceContains space point =
     let
         ( pointX, pointY ) =
@@ -65,7 +65,7 @@ spaceContains space point =
             space.y + space.width
 
         inBounds min max val =
-            min < val && val < max
+            (toFloat min) < val && val < (toFloat max)
     in
         (inBounds space.x maxX pointX)
             && (inBounds space.y maxY pointY)
@@ -85,3 +85,4 @@ type alias Model =
 
 type Msg
     = OnTouch ( Int, Int )
+    | ReceiveSVGCoords ( Float, Float )

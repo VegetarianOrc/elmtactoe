@@ -2,7 +2,6 @@ module View exposing (..)
 
 import Models exposing (..)
 import Html exposing (..)
-import Html.Attributes as HtmlAttr
 import Svg exposing (..)
 import Svg.Attributes exposing (..)
 import Svg.Events exposing (..)
@@ -18,8 +17,8 @@ decodeClickLocation =
     Decode.map OnTouch
         (Decode.map2
             (,)
-            (Decode.at [ "offsetX" ] Decode.int)
-            (Decode.at [ "offsetY" ] Decode.int)
+            (Decode.at [ "clientX" ] Decode.int)
+            (Decode.at [ "clientY" ] Decode.int)
         )
 
 
@@ -184,7 +183,7 @@ view model =
             [ CDN.stylesheet
             , Grid.row [ Row.centerXs ]
                 [ Grid.col []
-                    [ svg [ viewBox "0 0 500 500", width "500px", on "click" decodeClickLocation ] (renderBoard model.board 500)
+                    [ svg [ id "board", viewBox "0 0 100 100", width "100%", on "click" decodeClickLocation ] (renderBoard model.board 100)
                     ]
                 , Grid.col [ Col.sm4 ]
                     [ headUp
