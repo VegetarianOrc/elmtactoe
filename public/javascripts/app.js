@@ -77,10 +77,7 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
-// Require index.html so it gets copied to dist
-__webpack_require__(2);
-
-var Elm = __webpack_require__(3);
+var Elm = __webpack_require__(2);
 var mountNode = document.getElementById('main');
 
 // .embed() can take an optional second argument. This would be an object describing the data we need to start a program, i.e. a userID or some token
@@ -99,12 +96,6 @@ app.ports.toSvgCoords.subscribe(function(coords) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "index.html";
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports) {
 
 
