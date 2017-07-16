@@ -18,10 +18,10 @@ case object GameFullException extends Exception("This game is full.")
 class GameActor() extends Actor with GameUtils {
   import GameActor._
 
-  var crossPlayer: Option[ActorRef] = None
-  var circlePlayer: Option[ActorRef] = None
-  var board: Array[Array[BoardSpace]] = newBoard()
-  var nextMove: PlayerSpace = Cross
+  private var crossPlayer: Option[ActorRef] = None
+  private var circlePlayer: Option[ActorRef] = None
+  private var board: Array[Array[BoardSpace]] = newBoard()
+  private var nextMove: PlayerSpace = Cross
 
   def receive = {
     case Subscibe =>
