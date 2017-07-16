@@ -4,6 +4,13 @@ import com.amazzeo.elmtactoe.models._
 
 trait GameUtils {
 
+  def newBoard(): Array[Array[BoardSpace]] = {
+    Array(
+      Array(Empty, Empty, Empty),
+      Array(Empty, Empty, Empty),
+      Array(Empty, Empty, Empty))
+  }
+
   private[this] def isWinner(combination: Array[BoardSpace]): Tuple2[Boolean, BoardSpace] = {
     if (combination.forall(_ == Cross)) {
       (true, Cross)

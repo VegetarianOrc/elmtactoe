@@ -5,8 +5,9 @@ import play.api.mvc.WebSocket.MessageFlowTransformer._
 
 sealed trait BoardSpace
 case object Empty extends BoardSpace
-case object Cross extends BoardSpace
-case object Circle extends BoardSpace
+sealed trait PlayerSpace extends BoardSpace
+case object Cross extends PlayerSpace
+case object Circle extends PlayerSpace
 
 case class Player(name: String)
 
@@ -22,9 +23,7 @@ case class JoinGame(gameName: String) extends WSMessage
 case class PlayerMove(
   x: Int,
   y: Int,
-  move: BoardSpace) extends WSMessage {
-  require(move != Empty)
-}
+  move: PlayerSpace) extends WSMessage
 
 trait WSMessageCirce {
 

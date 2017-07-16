@@ -7,11 +7,32 @@ import scalariform.formatter.preferences._
 import com.typesafe.sbt.SbtScalariform
 import com.typesafe.sbt.SbtScalariform.ScalariformKeys
 
+
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
+
 
 resolvers += "Bintary JCenter" at "http://jcenter.bintray.com"
 
 scalaVersion := "2.12.2"
+
+scalacOptions := Seq(
+  "-deprecation",
+  "-encoding", "UTF-8",
+  "-feature",
+  "-language:existentials",
+  "-language:higherKinds",
+  "-language:implicitConversions",
+  "-language:postfixOps",
+  "-unchecked",
+  "-Xlint:-unused,_",
+  "-Ywarn-unused:-patvars,-privates,-locals,-params,-implicits",
+  "-Yno-adapted-args",
+  "-Ywarn-numeric-widen",
+  "-Ywarn-value-discard",
+  "-Xfuture",
+  "-language:reflectiveCalls"
+  )
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.0" % Test
