@@ -49,4 +49,9 @@ trait GameUtils {
     board.map(_.forall(_ != Empty)).reduce(_ && _)
   }
 
+  def updateBoard(board: Array[Array[BoardSpace]], x: Int, y: Int, move: PlayerSpace): Array[Array[BoardSpace]] = {
+    val updatedRow = board(y).updated(x, move)
+    board.updated(y, updatedRow)
+  }
+
 }

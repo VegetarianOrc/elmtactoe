@@ -30,7 +30,7 @@ class HomeController @Inject() (cc: ControllerComponents)(implicit system: Actor
     Ok(views.html.index())
   }
 
-  def testsocket = WebSocket.accept[WSMessage, String] { req =>
+  def testsocket = WebSocket.accept[WSMessage, WSMessage] { req =>
     ActorFlow.actorRef { out =>
       PlayerActor.props(out)
     }

@@ -6,7 +6,6 @@ import com.amazzeo.elmtactoe.models._
 object PlayerActor {
 
   def props(outSocket: ActorRef) = {
-    println("helloooo")
     Props(new PlayerActor(outSocket))
   }
 
@@ -14,12 +13,26 @@ object PlayerActor {
 
 class PlayerActor(out: ActorRef) extends Actor {
 
-  def receive = {
-    case msg: String =>
-      out ! s"got it ${msg}"
+  private[this] var game: Option[ActorRef] = None
 
+  def receive = {
     case JoinGame(gameName) =>
-      out ! s"JoinGame : ${gameName}"
+      GameCache.get(gameName) ! GameActor.Subscribe
+
+    case subscribeResult: SubscibeResult =>
+      if (subscribeResult.success) {
+        game = Option(GameCache.get(subscribeResult.gameName))
+      }
+      out ! subscribeResult
+
+    case playerMove: PlayerMove =>
+      game.foreach(_ ! playerMove)
+
+    case gameState: GameState =>
+      out ! gameState
+
+    case gameComplete: GameComplete =>
+      out ! gameComplete
 
   }
 
