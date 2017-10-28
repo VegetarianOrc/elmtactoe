@@ -1,6 +1,7 @@
 package com.amazzeo.elmtactoe.gameutils
 
 import com.amazzeo.elmtactoe.models._
+import scala.util.{ Try, Success, Failure }
 
 trait GameUtils {
 
@@ -50,8 +51,14 @@ trait GameUtils {
   }
 
   def updateBoard(board: Array[Array[BoardSpace]], x: Int, y: Int, move: PlayerSpace): Array[Array[BoardSpace]] = {
-    val updatedRow = board(y).updated(x, move)
-    board.updated(y, updatedRow)
+    Try(board(y)(x)) match {
+      case Success(space) if space == Empty =>
+        val updatedRow = board(y).updated(x, move)
+        board.updated(y, updatedRow)
+      case _ =>
+        //if we got an error or if the space is not empty
+        board
+    }
   }
 
 }
